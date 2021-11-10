@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 //Define a schema 
 const Schema = mongoose.Schema;
 
+// CVUserId:{type:mongoose.Schema.Types.ObjectId, ref: 'BLCVUser'},
 
 const CvModel= new Schema({
-    CVUserId:{type:mongoose.Schema.Types.ObjectId, ref: 'BLCVUser'},
     CVExp:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVExp'}],
     CVEdu:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVEdu'}],
     CVSkill:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVSkill'}],

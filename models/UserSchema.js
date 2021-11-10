@@ -9,7 +9,7 @@ const UserModel = new Schema({
         CVUserMail:{type:String,required:true},
         CVUserStatus:{type:Number,default:0}, //Need Activation
         CVUserPlan:{type:Number,default:0}, // free Plan
-        // CVUCvId:{type:mongoose.Schema.Types.ObjectId, ref: 'BLCV'},
+        CVUCvId:{type:mongoose.Schema.Types.ObjectId, ref: 'BLCV'},
         CVUserPass:{type:String,min:8,required:true} 
 });
       

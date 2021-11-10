@@ -7,7 +7,7 @@ const port = process.env.PORT||5000;
 
 
 //Require routes 
-// const ExpRoutes = require('./routes/ExpRoutes')
+const ExpRoutes = require('./routes/v1/ExpRoutes')
 // const SkillRoutes = require('./routes/SkillRoutes')
 const UserRoutes = require('./routes/v1/UserRoutes')
 
@@ -31,7 +31,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 //Use Routes
-//app.use('/api/Exp',ExpRoutes)
+app.use('/api/v1/Exp',ExpRoutes)
 //app.use('/api/Skill',SkillRoutes)
 app.use('/api/v1/User/',UserRoutes)
 
