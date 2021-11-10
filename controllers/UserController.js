@@ -45,8 +45,8 @@ exports.Save= function(req,res,next){
                     //Save Cv Skills
                     var skills =req.body.SkillI;
                     if(skills){
-                        facades.SaveSkill(skills,CvId)
-
+                        var SkillArr=skills.split(',')
+                        facades.SaveSkill(SkillArr,CvId)
                     }
 
 

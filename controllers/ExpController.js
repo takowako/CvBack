@@ -1,5 +1,5 @@
 const { validationResult } = require('express-validator');
-const CvModel=require('../models/CvSchema')
+const CvModel=require('../models/CvSchema');
 const ExpModel = require('../models/ExperianceSchema');
 
 
@@ -29,8 +29,7 @@ exports.Save = function(req,res,next) {
     saveExp.ExpTo = req.body.ExpToI;
     saveExp.ExpSkill=req.body.ExpSkillI;
     saveExp.save(function(err,result){
-
-
+        
         if(!err){
 
             //push exp to Cv Exp Arr

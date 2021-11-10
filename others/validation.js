@@ -83,3 +83,29 @@ exports.SaveSkillValidate=[
         .withMessage('Skill Color is required'),
 ]
 //End Save Skill Validation
+
+
+//Save Edu validation
+exports.SaveEduValidate=[
+        //Edu Title validate
+        check('EduTitleI').notEmpty()
+        .withMessage('Education Title is required'),
+
+        //Exp Description validation
+        check('EduDescI').notEmpty()
+        .withMessage('Education Description Is Required'),
+
+        //Exp from Validation
+        check('EduFromI').notEmpty()
+        .withMessage('Education From Date Is Required'),
+
+        //Exp To Validation
+        check('EduToI').notEmpty()
+        .withMessage('Education To Date Is Required '),
+
+        //Exp Skill Validation
+        check('EduSkillI').notEmpty()
+        .withMessage('Education Skill Is Required'),
+
+]
+//End Save Edu validatiom
