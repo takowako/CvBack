@@ -2,6 +2,8 @@ const { validationResult } = require('express-validator')
 const SkillModel = require('../models/SkillSchema')
 const CVModel = require("../models/CvSchema");
 
+const facade=require('../others/facades')
+
 exports.Save = function(req,res,next){
     
     //Validate Inputs 
@@ -29,18 +31,50 @@ exports.Save = function(req,res,next){
     saveSkill.save(function(err,result){
         
         if(!err){
-            
             //update CV ref 
-            CVModel.findOne({_id:CvId},function(err2,result2){
-                if(!err2){
-                    result2.CVSkill.push(saveSkill._id)
-                    result2.save(function(err3,result3){
-                        if(!err3){
-                            return res.send('Skill Saved')
-                        }
-                    })
-                }              
-            })    		 	
+            facade.PushToCvArr(CvId,'CVSkill',saveSkill._id);
+            res.send('Skill Saved');	 	
         }
     })	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.Delete=function(req,res,next){
+
+    var skId=req.params.skId;
+    
+    //Check Education & Delete  
+    SkillModel.findOneAndDelete({_id:skId},function(err,result){
+        console.log('err',err)
+        console.log('res',result)
+        if(!err && result){
+            //Get CV & Remove Edu Id From CVEdu
+            facade.PullCvArr(result.CVId,'CVSkill',skId)
+            res.send('Skill Deleted');
+        }
+        else{
+            return res.send('Unable To Delete Skill');
+        }
+    })
+
 }

@@ -29,8 +29,8 @@ exports.SaveUserValidate=[
         check('PassI').notEmpty()
         .withMessage('Password Is Required'),
 
-        // check('PassI').length(6)
-        // .withMessage('Pass Minimum length is 6'),
+        check('PassI').isLength({min:6})
+        .withMessage('Pass Minimum length is 6'),
 
         check('PhoneI').isMobilePhone()
         .withMessage('Wrong Mobile Phone'),
@@ -39,7 +39,7 @@ exports.SaveUserValidate=[
 
 
 //Save Experiance Validation
-exports.SaveExpValidate=[
+exports.ExpValidate=[
         //Exp Title validate
         check('ExpTitleI').notEmpty()
         .withMessage('Expreiance Title is required'),
@@ -68,7 +68,7 @@ exports.SaveExpValidate=[
 
 
 //Save Skill Validation
-exports.SaveSkillValidate=[
+exports.SkillValidate=[
 
         //Skill Title Validation
         check('SkillTitleI').notEmpty()
@@ -87,7 +87,7 @@ exports.SaveSkillValidate=[
 
 
 //Save Edu validation
-exports.SaveEduValidate=[
+exports.EduValidate=[
         //Edu Title validate
         check('EduTitleI').notEmpty()
         .withMessage('Education Title is required'),

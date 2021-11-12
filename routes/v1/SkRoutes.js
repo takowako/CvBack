@@ -9,8 +9,8 @@ const router = express.Router();
 
 
 
-router.post('/',auth.validateToken,Validate.SaveSkillValidate,SkController.Save)
+router.post('/',auth.validateToken,Validate.SkillValidate,SkController.Save)
 
-
+router.delete('/:skId',auth.validateToken,SkController.Delete);
 
 module.exports = router;

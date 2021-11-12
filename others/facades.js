@@ -74,3 +74,30 @@ exports.SaveSkill=function(arr,CvId){
     })
 }
 
+
+
+
+
+exports.PushToCvArr=function(CvId,arr,itemId){
+
+    //push item to Cv Arr
+    CvModel.findOne({_id:CvId},function(err2,result2){
+
+        if(!err2 && result2){
+            result2[arr].push(itemId);
+            result2.save();
+        }
+    })
+}
+
+
+exports.PullCvArr=function(CvId,arr,itemId){
+
+    CvModel.findOne({_id:CvId},function(err2,result2){
+        if(!err2 && result2 ){
+            // console.log(result2.CVEdu)
+            result2[arr].pull(itemId)
+            result2.save();
+        }
+    })
+}

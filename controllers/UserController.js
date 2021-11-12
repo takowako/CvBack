@@ -19,12 +19,22 @@ exports.Get= function(req,res){
             populate:[
                 {
                   path:'CVExp',
+                  populate:[
+                      {
+                          path:'ExpSkill'
+                      }
+                  ]
                 },
                 {
                     path:'CVSkill'
                 },
                 {
-                    path:'CVEdu'
+                    path:'CVEdu',
+                    populate:[
+                        {
+                            path:'EduSkill'
+                        }
+                    ]
                 },
                 {
                     path:'CVReff'
@@ -117,21 +127,30 @@ exports.Save= function(req,res,next){
 
 exports.Login = function(req,res,next){
 
-    UserModel.find({CVUserMail:req.body.MailI},function(err,result){
+    UserModel.findOne({CVUserMail:req.body.MailI},function(err,result){
 
         if(!err){
-            console.log(result[0])
+            console.log(result)
             if(result === 'null'){
                 return  res.send('wrong username or password user null');
             }
-            console.log(result.CVUserPass)
-            if(bcrypt.compare(req.body.PassI, result[0].CVUserPass)){
-                var token=auth.generateToken(result[0])
-                return res.send(token);
+
+            if(result){
+
+                console.log(result.CVUserPass)
+                if(bcrypt.compare(req.body.PassI, result.CVUserPass)){
+                    var token=auth.generateToken(result)
+                    return res.send(token);
+                }
+                else{
+                    return  res.send('wrong username or password bad compare');
+                }
+
             }
             else{
-                return  res.send('wrong username or password bad compare');
+                return res.send('Wrong username or passwotd');
             }
+    
 
         }
 

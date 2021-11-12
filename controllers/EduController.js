@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const CvModel=require('../models/CvSchema');
 const EduModel=require('../models/EducationSchema');
 
+const facade = require('../others/facades')
 
 
 exports.Save = function(req,res,next){
@@ -19,8 +20,8 @@ exports.Save = function(req,res,next){
 
 
     //get Cv id
-    var CvId = req.user.user.CVUCvId;
-
+    var CvId = req.user.CVUCvId;
+   console.log(req.user.CVUCvId)
     var SaveEdu=new EduModel();
     SaveEdu.CVId =CvId;
     SaveEdu.EduTitle=req.body.EduTitleI;
@@ -33,15 +34,55 @@ exports.Save = function(req,res,next){
         if(!err){
 
             //push edu to Cv Exp Arr
-            CvModel.findOne({_id:CvId},function(err2,result2){
+            facade.PushToCvArr(CvId,'CVEdu',SaveEdu._id)
+            return res.send('Education Saved');
 
-                if(!err2){
-                    result2.CVEdu.push(SaveEdu._id);
-                    result2.save();
-                    res.send('Edu Saved');
-                }
-            })
+
         }
     })
 
+}
+
+
+
+
+
+exports.Update = function(req,res,next){
+
+
+    //validate Inputs 
+    const errors = validationResult(req);
+    if(errors.errors.length > 0 ){
+        res.json({
+            success:false,
+            payload:errors.errors,
+            msg:'Validation Error' 
+        });
+    }
+
+    //find Edu
+
+
+
+
+}
+
+
+
+exports.Delete=function(req,res,next){
+
+    var EduId=req.params.eduId;
+    
+    //Check Education & Delete  
+    EduModel.findOneAndDelete({_id:EduId},function(err,result){
+
+        if(!err && result){
+            //Get CV & Remove Edu Id From CVEdu
+            facade.PullCvArr(result.CVId,'CVEdu',EduId)
+            res.send('Education Deleted')
+        }
+        else{
+            return res.send('Unable To Delete Education');
+        }
+    })
 }

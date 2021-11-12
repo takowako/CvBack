@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 const CvModel=require('../models/CvSchema');
 const ExpModel = require('../models/ExperianceSchema');
+const facade = require('../others/facades');
 
 
 exports.Save = function(req,res,next) {
@@ -16,9 +17,9 @@ exports.Save = function(req,res,next) {
     }
 
     //res.send(req.body);
-
-    //get Cv id
-    var CvId = req.user.user.CVUCvId;
+    console.log(req.user)
+    //get Cv id 
+    var CvId = req.user.CVUCvId;
 
     //Save Exp
     var saveExp=new ExpModel()
@@ -33,18 +34,46 @@ exports.Save = function(req,res,next) {
         
         if(!err){
 
-            //push exp to Cv Exp Arr
-            CvModel.findOne({_id:CvId},function(err2,result2){
-
-                if(!err2){
-                    result2.CVExp.push(saveExp._id);
-                    result2.save();
-                    res.send('Exp Saved');
-                }
-            })
-
+            facade.PushToCvArr(CvId,'CVExp',saveExp._id)
+            return res.send('Exp Saved');
         }
 
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.Delete=function(req,res,next){
+
+    var ExpId=req.params.expId;
+    
+    //Check Education & Delete  
+    ExpModel.findOneAndDelete({_id:ExpId},function(err,result){
+
+        if(!err && result){
+            //Get CV & Remove Edu Id From CVEdu
+            facade.PullCvArr(result.CVId,'CVExp',ExpId)
+            res.send('Experiance Deleted');
+        }
+        else{
+            return res.send('Unable To Delete Experiance');
+        }
     })
 }
 

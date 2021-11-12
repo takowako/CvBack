@@ -9,7 +9,9 @@ const router = express.Router();
 
 
 
-router.post('/',auth.validateToken,Validate.SaveEduValidate,EduController.Save)
+router.post('/',auth.validateToken,Validate.EduValidate,EduController.Save);
+
+router.delete('/:eduId',auth.validateToken,EduController.Delete);
 
 
 

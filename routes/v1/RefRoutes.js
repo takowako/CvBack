@@ -11,6 +11,8 @@ const router = express.Router();
 
 router.post('/',auth.validateToken,Validate.SaveRefvalidate,RefController.Save)
 
+router.delete('/:refId',auth.validateToken,RefController.Delete);
+
 
 
 module.exports = router;

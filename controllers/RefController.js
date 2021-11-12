@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const RefModel=require('../models/ReffernceSchema');
 const CvModel=require('../models/CvSchema');
 
+const facade = require('../others/facades');
 
 
 
@@ -32,18 +33,42 @@ exports.Save= function(req,res,next){
 
         if(!err){
             //push ref to Cv Exp Arr
-            CvModel.findOne({_id:CvId},function(err2,result2){
-
-                if(!err2){
-                    result2.CVReff.push(SaveRef._id);
-                    result2.save();
-                    res.send('Reff Saved');
-                }
-            })
+            facade.PushToCvArr(CvId,'CVReff',SaveRef._id)
+            return res.send('Reff Saved');
         }
 
     })
+}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.Delete=function(req,res,next){
+
+    var RefId=req.params.refId;
+    
+    //Check Education & Delete  
+    RefModel.findOneAndDelete({_id:RefId},function(err,result){
+
+        if(!err && result){
+            //Get CV & Remove Edu Id From CVEdu
+            facade.PullCvArr(result.CVId,'CVReff',RefId)
+            res.send('Reffrence Deleted');
+        }
+        else{
+            return res.send('Unable To Delete Reffrence');
+        }
+    })
 
 }
