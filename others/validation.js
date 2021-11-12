@@ -112,6 +112,37 @@ exports.SaveEduValidate=[
 //End Save Edu validatiom
 
 
+
+//Save Reff validation start
+
+exports.SaveRefvalidate=[
+
+        //Reff Name validate
+        check('RefNameI').notEmpty()
+        .withMessage('Reff Name is required'),
+
+        //Reff job validation
+        check('RefJobI').notEmpty()
+        .withMessage('Reff Job Is Required'),
+
+        //Reff mail Validation
+        check('RefMailI').notEmpty()
+        .withMessage('Reff Mail Is Required'),
+
+        check('RefMailI').isEmail()
+        .withMessage('Reff Mail Is Wrong'),
+
+        //Reff Phone To Validation
+        check('RefPhoneI').notEmpty()
+        .withMessage('Reff Phone Is Required '),
+
+        check('RefPhoneI').isMobilePhone()
+        .withMessage('Reff Mobile Number Is Wrong'),
+
+];
+//Save Reff Validation End
+
+
 //User Login Validate 
 exports.LoginUserValidate = [
 

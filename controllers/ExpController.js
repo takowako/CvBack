@@ -22,6 +22,7 @@ exports.Save = function(req,res,next) {
 
     //Save Exp
     var saveExp=new ExpModel()
+    saveExp.CVId=CvId;
     saveExp.ExpTitle = req.body.ExpTitleI;
     saveExp.ExpDesc = req.body.ExpDescI;
     saveExp.ExpJob = req.body.ExpJobI;

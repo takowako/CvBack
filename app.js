@@ -11,6 +11,7 @@ const ExpRoutes = require('./routes/v1/ExpRoutes')
 const EduRoutes= require('./routes/v1/EduRoutes')
 const SkillRoutes = require('./routes/v1/SkRoutes')
 const UserRoutes = require('./routes/v1/UserRoutes')
+const ReffRoutes = require('./routes/v1/RefRoutes')
 
 
 //Body Parser Initialize
@@ -35,6 +36,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 app.use('/api/v1/Exp',ExpRoutes)
 app.use('/api/v1/Edu',EduRoutes)
 app.use('/api/v1/Skill',SkillRoutes)
+app.use('/api/v1/Reff',ReffRoutes)
 app.use('/api/v1/User/',UserRoutes)
 
 

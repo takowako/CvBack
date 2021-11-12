@@ -26,9 +26,9 @@ exports.Get= function(req,res){
                 {
                     path:'CVEdu'
                 },
-                // {
-                //     path:'CVReff'
-                // },
+                {
+                    path:'CVReff'
+                },
                 {
                     path:'CVContact'
                 }
