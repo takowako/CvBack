@@ -41,9 +41,7 @@ exports.Save = function(req,res,next){
                     res.send('Edu Saved');
                 }
             })
-
         }
-
     })
 
 }

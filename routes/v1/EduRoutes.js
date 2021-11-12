@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 
-router.post('/Save',auth.validateToken,Validate.SaveEduValidate,EduController.Save)
+router.post('/',auth.validateToken,Validate.SaveEduValidate,EduController.Save)
 
 
 

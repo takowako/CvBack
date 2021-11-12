@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken")
 
 
 exports.generateToken = function(user){
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"})
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "40m"})
 }
 
 exports.validateToken= function(req, res, next) {

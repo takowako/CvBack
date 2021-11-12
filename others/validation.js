@@ -1,5 +1,5 @@
-const { validationResult, check } = require('express-validator')
-
+const { validationResult, check , body } = require('express-validator')
+const UserModel = require('../models/UserSchema');
 
 
 
@@ -7,17 +7,24 @@ const { validationResult, check } = require('express-validator')
 //Save User Validation 
 exports.SaveUserValidate=[
 
-        check('FirstNameI').notEmpty()
-        .withMessage('User First name  is required'),
-
-        check('LastNameI').notEmpty()
-        .withMessage('User Last name  is required'),
+        check('FullNameI').notEmpty()
+        .withMessage('User Full name  is required'),
 
         check('MailI').notEmpty()
         .withMessage('User Mail   is required'),
 
         check('MailI').isEmail()
         .withMessage('Mail Is Wrong'),
+
+        body('MailI').custom(value=>{
+           
+          return UserModel.findOne({CVUserMail:value}).then(user =>{
+             if(user){
+                return Promise.reject('E-mail already in use');
+             }
+          })
+ 
+        }),
 
         check('PassI').notEmpty()
         .withMessage('Password Is Required'),
@@ -62,9 +69,6 @@ exports.SaveExpValidate=[
 
 //Save Skill Validation
 exports.SaveSkillValidate=[
-        //CV ID Title validate
-        check('CVId').notEmpty()
-        .withMessage('CV ID is required'),
 
         //Skill Title Validation
         check('SkillTitleI').notEmpty()
@@ -78,9 +82,6 @@ exports.SaveSkillValidate=[
         check('SkillValI').notEmpty()
         .withMessage('Skill Value is required'),
 
-        //Skill Color Validation SkillColor
-        check('SkillColorI').notEmpty()
-        .withMessage('Skill Color is required'),
 ]
 //End Save Skill Validation
 
@@ -109,3 +110,21 @@ exports.SaveEduValidate=[
 
 ]
 //End Save Edu validatiom
+
+
+//User Login Validate 
+exports.LoginUserValidate = [
+
+        //User mail
+        check('MailI').notEmpty()
+        .withMessage('User Mail   is required'),
+
+        check('MailI').isEmail()
+        .withMessage('Mail Is Wrong'),
+
+        //Password
+        check('PassI').notEmpty()
+        .withMessage('Password Is Required'),
+];
+
+//End User login Validate 

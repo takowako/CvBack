@@ -2,7 +2,7 @@ const ConatctModel = require('../models/ContactSchema');
 const CVMetaModel = require('../models/CvMetaSchema');
 const CvModel = require('../models/CvSchema');
 const SkillModel = require('../models/SkillSchema');
-var mongoose = require('mongoose');
+const UserModel = require('../models/UserSchema');
 
 
 exports.saveCvMeta = function(arr,CvId){
@@ -43,12 +43,21 @@ exports.SaveSkill=function(arr,CvId){
 
     arr.forEach(item=>{
 
+
+        //generate random color
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        //Save Skill
         var SaveSkill=new SkillModel();
         SaveSkill.CVId=CvId,
         SaveSkill.SkillTitle=item
         SaveSkill.SkillDesc='   ';
         SaveSkill.SkillVal=100;
-        SaveSkill.SkillColor='red';
+        SaveSkill.SkillColor=color;
         SaveSkill.save(function(err,result){
             if(!err){
                 //Push Skills To Skills Arr
@@ -62,9 +71,6 @@ exports.SaveSkill=function(arr,CvId){
             }
 
         })
-    
-
     })
-
-
 }
+
