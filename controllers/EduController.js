@@ -5,6 +5,7 @@ const EduModel=require('../models/EducationSchema');
 
 const facade = require('../others/facades')
 
+var ObjectId = require('mongoose').Types.ObjectId;
 
 exports.Save = function(req,res,next){
 
@@ -60,7 +61,26 @@ exports.Update = function(req,res,next){
         });
     }
 
-    //find Edu
+    //validate param
+    var EduId=req.params.eduId;
+    if(!ObjectId.isValid(EduId)){
+        return res.send('Param Not Valid');
+    }
+
+    //find Edu & Update 
+    var Update={
+        EduTitle:req.body.EduTitleI,
+        EduDesc:req.body.EduDescI, 
+        EduFrom:req.body.EduFromI,
+        EduTo:req.body.EduToI,
+    }
+    //EduSkill:[{type: mongoose.Schema.Types.ObjectId, ref: 'BLCVSkill'}]
+
+    EduModel.findOneAndUpdate({_id:EduId},Update,function(err,result){
+
+
+
+    })
 
 
 
@@ -72,6 +92,9 @@ exports.Update = function(req,res,next){
 exports.Delete=function(req,res,next){
 
     var EduId=req.params.eduId;
+    if(!ObjectId.isValid(EduId)){
+        return res.send('Param Not Valid');
+    }
     
     //Check Education & Delete  
     EduModel.findOneAndDelete({_id:EduId},function(err,result){

@@ -62,6 +62,9 @@ exports.Save = function(req,res,next){
 exports.Delete=function(req,res,next){
 
     var skId=req.params.skId;
+    if(!ObjectId.isValid(skId)){
+        return res.send('Param Not Valid');
+    }
     
     //Check Education & Delete  
     SkillModel.findOneAndDelete({_id:skId},function(err,result){

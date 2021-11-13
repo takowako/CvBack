@@ -57,6 +57,9 @@ exports.Save= function(req,res,next){
 exports.Delete=function(req,res,next){
 
     var RefId=req.params.refId;
+    if(!ObjectId.isValid(RefId)){
+        return res.send('Param Not Valid');
+    }
     
     //Check Education & Delete  
     RefModel.findOneAndDelete({_id:RefId},function(err,result){
