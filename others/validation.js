@@ -56,13 +56,18 @@ exports.ExpValidate=[
         check('ExpFromI').notEmpty()
         .withMessage('Expreiance From Date Is Required'),
 
+        check('ExpFromI').isISO8601().toDate()
+        .withMessage('Invalid Experiance From Date'),
+
         //Exp To Validation
         check('ExpToI').notEmpty()
         .withMessage('Experiance To Date Is Required '),
 
+        check('ExpToI').isISO8601().toDate()
+        .withMessage('Invalid Experiance to Date '),
+
         //Exp Skill Validation
-        check('ExpSkillI').notEmpty()
-        .withMessage('Experiance Skill Is Required'),
+
 ]
 //End Save Experiance Validation
 
@@ -115,7 +120,7 @@ exports.EduValidate=[
 
 //Save Reff validation start
 
-exports.SaveRefvalidate=[
+exports.Refvalidate=[
 
         //Reff Name validate
         check('RefNameI').notEmpty()

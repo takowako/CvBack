@@ -74,11 +74,27 @@ exports.Update = function(req,res,next){
         EduFrom:req.body.EduFromI,
         EduTo:req.body.EduToI,
     }
-    //EduSkill:[{type: mongoose.Schema.Types.ObjectId, ref: 'BLCVSkill'}]
+
 
     EduModel.findOneAndUpdate({_id:EduId},Update,function(err,result){
 
+        //update Skill Array
+        if(!err && result){
+            console.log(result.EduSkill)
+            result.EduSkill.forEach(item => {
+                result.EduSkill.pull(item);
+            });
+            var newSkillArr= req.body.EduSkillI;
+            newSkillArr.forEach(item=>{
+                result.EduSkill.push(item);
+            })
+            result.save();
+            res.send('Edu Updated');
 
+        }
+        else{
+            res.send('Unable To Find Education');
+        }
 
     })
 

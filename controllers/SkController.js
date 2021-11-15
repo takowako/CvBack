@@ -1,7 +1,7 @@
 const { validationResult } = require('express-validator')
 const SkillModel = require('../models/SkillSchema')
 const CVModel = require("../models/CvSchema");
-
+var ObjectId = require('mongoose').Types.ObjectId;
 const facade=require('../others/facades')
 
 exports.Save = function(req,res,next){
@@ -41,21 +41,50 @@ exports.Save = function(req,res,next){
 
 
 
+exports.Update = function(req,res,next){
+
+
+    //Validate Inputs 
+    const errors = validationResult(req) 
+    if (!errors.isEmpty()) { 
+    console.log(errors.array())
+    return res.status(422).json({ errors: errors.array() })
+    }
+
+    //Check Skill Id param
+    var skId=req.params.skId;
+    if(!ObjectId.isValid(skId)){
+        return res.send('Param Not Valid');
+    }
+
+
+    //Update Skill
+    var Update = {
+
+        SkillTitle:req.body.SkillTitleI,
+        SkillDesc:req.body.SkillDescI, 
+        SkillVal:req.body.SkillValI,
+        SkillColor:req.body.SkillColorI
+
+    };
+
+    SkillModel.findOneAndUpdate({_id:skId},Update,function(err,result){
+
+        if(!err && result){
+            return res.send('Skill Updated ')
+        }
+        else{
+            return res.send('Unable To Update Skill')
+        }
+
+
+    })
+ 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 

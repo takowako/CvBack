@@ -11,6 +11,8 @@ const router = express.Router();
 
 router.post('/',auth.validateToken,Validate.EduValidate,EduController.Save);
 
+router.put('/:eduId',auth.validateToken,Validate.EduValidate,EduController.Update);
+
 router.delete('/:eduId',auth.validateToken,EduController.Delete);
 
 

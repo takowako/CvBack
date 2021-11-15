@@ -1,8 +1,10 @@
 const { validationResult } = require('express-validator');
 const CvModel=require('../models/CvSchema');
 const ExpModel = require('../models/ExperianceSchema');
-const facade = require('../others/facades');
 
+
+const facade = require('../others/facades');
+var ObjectId = require('mongoose').Types.ObjectId;
 
 exports.Save = function(req,res,next) {
     
@@ -44,16 +46,58 @@ exports.Save = function(req,res,next) {
 
 
 
+exports.Update=function(req,res,next){
+
+    //validate Inputs 
+    const errors = validationResult(req);
+    if(errors.errors.length > 0 ){
+        return  res.json({
+            success:false,
+            payload:errors.errors,
+            msg:'Validation Error' 
+        });
+    }
+
+    var ExpId=req.params.expId;
+    if(!ObjectId.isValid(ExpId)){
+        return res.send('Param Not Valid');
+    }
+
+    var Update={
+        ExpTitle:req.body.ExpTitleI,
+        ExpDesc:req.body.ExpDescI, 
+        ExpJob:req.body.ExpJobI,
+        ExpFrom:req.body.ExpFromI,
+        ExpTo:req.body.ExpToI,
+        
+    }
+    
+    //ExpSkill:[{type: mongoose.Schema.Types.ObjectId, ref: 'BLCVSkill'}]
+
+    ExpModel.findOneAndUpdate({_id:ExpId},Update,function(err,result){
+
+        //update Skill Array
+        if(!err && result){
+            result.ExpSkill.forEach(item => {
+                result.ExpSkill.pull(item);
+            });
+            var newSkillArr= req.body.ExpSkillI;
+            newSkillArr.forEach(item=>{
+                result.ExpSkill.push(item);
+            })
+            
+            result.save();
+            res.send('Exp Updated');
+
+        }
+        else{
+            res.send('Unable to Find Experiance')
+        }
+
+    })
 
 
-
-
-
-
-
-
-
-
+}
 
 
 
