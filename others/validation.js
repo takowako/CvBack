@@ -164,3 +164,20 @@ exports.LoginUserValidate = [
 ];
 
 //End User login Validate 
+
+
+
+//Projecct Validate
+
+exports.ProjValidate=[
+
+        check('ProjNameI').notEmpty()
+        .withMessage('Project Name Is required'),
+
+        check('ProjDescI').notEmpty()
+        .withMessage('Project Descreption Is Required'),
+
+        check('ProjDateI').notEmpty()
+        .withMessage('Project Date is required'),
+]
+//End Project validate

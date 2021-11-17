@@ -37,6 +37,12 @@ exports.Get= function(req,res){
                     ]
                 },
                 {
+                    path:'CVProj',
+                    populate:[{
+                        path:'ProjSkill'
+                    }]
+                },
+                {
                     path:'CVReff'
                 },
                 {
@@ -127,7 +133,7 @@ exports.Save= function(req,res,next){
 
 exports.Login = function(req,res,next){
 
-    UserModel.findOne({CVUserMail:req.body.MailI},function(err,result){
+    UserModel.findOne({CVUserMail:req.body.UserI},function(err,result){
 
         if(!err){
             console.log(result)
@@ -139,7 +145,13 @@ exports.Login = function(req,res,next){
 
                 console.log(result.CVUserPass)
                 if(bcrypt.compare(req.body.PassI, result.CVUserPass)){
-                    var token=auth.generateToken(result)
+                    var data=auth.generateToken(result)
+
+                    return res.status(200).json({
+                        success:true,
+                        data
+                    });
+
                     return res.send(token);
                 }
                 else{

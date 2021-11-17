@@ -12,6 +12,8 @@ const EduRoutes= require('./routes/v1/EduRoutes')
 const SkillRoutes = require('./routes/v1/SkRoutes')
 const UserRoutes = require('./routes/v1/UserRoutes')
 const ReffRoutes = require('./routes/v1/RefRoutes')
+const projRoutes = require('./routes/v1/ProjRoutes')
+
 
 
 //Body Parser Initialize
@@ -33,10 +35,17 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 
 //Use Routes
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/api/v1/Exp',ExpRoutes)
 app.use('/api/v1/Edu',EduRoutes)
 app.use('/api/v1/Skill',SkillRoutes)
 app.use('/api/v1/Reff',ReffRoutes)
+app.use('/api/v1/Proj',projRoutes)
 app.use('/api/v1/User/',UserRoutes)
 
 
