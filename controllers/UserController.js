@@ -54,7 +54,17 @@ exports.Get= function(req,res){
     var user = UserModel.findById(u._id).populate(popObj).exec(function(err,result){
         console.log(err)
         if(!err){
-            return res.json(result);
+            return res.json({
+                status:true,
+                items:{
+                    Exp:result.CVUCvId.CVExp,
+                    Edu:result.CVUCvId.CVEdu,
+                    Skill:result.CVUCvId.CVSkill,
+                    Reff:result.CVUCvId.CVReff,
+                    Contacts:result.CVUCvId.CVContact,
+                    Proj:result.CVUCvId.CVProj
+                }
+            });
         }
         console.log(result)
     });
@@ -149,7 +159,7 @@ exports.Login = function(req,res,next){
 
                     return res.status(200).json({
                         success:true,
-                        data
+                        items:data
                     });
 
                     return res.send(token);

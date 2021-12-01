@@ -27,6 +27,7 @@ exports.Save = function(req,res,next){
     SaveEdu.CVId =CvId;
     SaveEdu.EduTitle=req.body.EduTitleI;
     SaveEdu.EduDesc=req.body.EduDescI;
+    SaveEdu.EduType=req.body.EduTypeI;
     SaveEdu.EduFrom=req.body.EduFromI;
     SaveEdu.EduTo=req.body.EduToI;
     SaveEdu.EduSkill=req.body.EduSkillI;
@@ -36,9 +37,21 @@ exports.Save = function(req,res,next){
 
             //push edu to Cv Exp Arr
             facade.PushToCvArr(CvId,'CVEdu',SaveEdu._id)
-            return res.send('Education Saved');
 
+            //get list of educations
+            EduModel.find({CVId:CvId}).populate({path:'EduSkill'}).exec(function(err2,result2){
 
+                if(!err2){
+
+                    return res.status(201).json({
+                        status:true,
+                        items:{
+                            item:result,
+                            list:result2
+                        }
+                    });
+                }
+            })
         }
     })
 

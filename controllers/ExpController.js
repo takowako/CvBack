@@ -11,15 +11,13 @@ exports.Save = function(req,res,next) {
     //validate Inputs 
     const errors = validationResult(req);
     if(errors.errors.length > 0 ){
-        res.json({
+        return res.status(400).json({
             success:false,
             payload:errors.errors,
             msg:'Validation Error' 
         });
     }
 
-    //res.send(req.body);
-    console.log(req.user)
     //get Cv id 
     var CvId = req.user.CVUCvId;
 
@@ -37,7 +35,25 @@ exports.Save = function(req,res,next) {
         if(!err){
 
             facade.PushToCvArr(CvId,'CVExp',saveExp._id)
-            return res.send('Exp Saved');
+
+            
+            //get list of Experiances
+            var ExpList=ExpModel.find({CVId:CvId},).populate({path:'ExpSkill'}).exec(function(err2,result2){
+
+                if(!err2){
+
+                    return res.status(201).json({
+                        status:true,
+                        items:{
+                            item:result,
+                            list:result2
+                        }
+                    });
+                }
+            })
+
+
+    
         }
 
     })

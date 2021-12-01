@@ -9,6 +9,7 @@ const CvEdu = new Schema({
   EduStatus:{type:Number,default:1},
   EduTitle:{type:String,required:true},
   EduDesc:{type:String,required:true}, 
+  EduType:{type:String,required:true},
   EduFrom:{type:Date,required:true},
   EduTo:{type:Date,required:true},
   EduSkill:[{type: mongoose.Schema.Types.ObjectId, ref: 'BLCVSkill'}]

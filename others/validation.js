@@ -56,15 +56,15 @@ exports.ExpValidate=[
         check('ExpFromI').notEmpty()
         .withMessage('Expreiance From Date Is Required'),
 
-        check('ExpFromI').isISO8601().toDate()
-        .withMessage('Invalid Experiance From Date'),
+        // check('ExpFromI').isISO8601().toDate()
+        // .withMessage('Invalid Experiance From Date'),
 
         //Exp To Validation
         check('ExpToI').notEmpty()
         .withMessage('Experiance To Date Is Required '),
 
-        check('ExpToI').isISO8601().toDate()
-        .withMessage('Invalid Experiance to Date '),
+        // check('ExpToI').isISO8601().toDate()
+        // .withMessage('Invalid Experiance to Date '),
 
         //Exp Skill Validation
 
@@ -101,6 +101,10 @@ exports.EduValidate=[
         check('EduDescI').notEmpty()
         .withMessage('Education Description Is Required'),
 
+        //Exp Type validatione
+        check('EduTypeI').notEmpty()
+        .withMessage('Education Type Is required'),
+
         //Exp from Validation
         check('EduFromI').notEmpty()
         .withMessage('Education From Date Is Required'),
@@ -110,8 +114,8 @@ exports.EduValidate=[
         .withMessage('Education To Date Is Required '),
 
         //Exp Skill Validation
-        check('EduSkillI').notEmpty()
-        .withMessage('Education Skill Is Required'),
+        // check('EduSkillI').notEmpty()
+        // .withMessage('Education Skill Is Required'),
 
 ]
 //End Save Edu validatiom

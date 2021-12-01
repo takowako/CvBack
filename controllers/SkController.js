@@ -24,6 +24,7 @@ exports.Save = function(req,res,next){
 
     //Save Skill 
     var saveSkill = new SkillModel();
+    saveSkill.CVId=CvId;
     saveSkill.SkillTitle = req.body.SkillTitleI;
     saveSkill.SkillDesc = req.body.SkillDescI;
     saveSkill.SkillVal = req.body.SkillValI;
@@ -33,7 +34,24 @@ exports.Save = function(req,res,next){
         if(!err){
             //update CV ref 
             facade.PushToCvArr(CvId,'CVSkill',saveSkill._id);
-            res.send('Skill Saved');	 	
+
+            //get Skills
+            SkillModel.find({CVId:CvId},function(err2,result2){
+
+                if(!err2){
+
+                    return res.status(201).json({
+                        status:true,
+                        items:{
+                            item:result,
+                            list:result2
+                        }
+                    });
+
+                }
+
+
+            })	 	
         }
     })	
 }
@@ -102,10 +120,26 @@ exports.Delete=function(req,res,next){
         if(!err && result){
             //Get CV & Remove Edu Id From CVEdu
             facade.PullCvArr(result.CVId,'CVSkill',skId)
-            res.send('Skill Deleted');
+
+            //get All skills
+            SkillModel.find({CVId:result.CVId},function(err2,result2){
+
+                if(!err2)
+                return res.status(200).json({
+                    status:true,
+                    items:{
+                        item:result,
+                        list:result2
+                    }
+                });
+
+            })
         }
         else{
-            return res.send('Unable To Delete Skill');
+            return res.status(402).json({
+                success:false,
+                items:null
+            });
         }
     })
 

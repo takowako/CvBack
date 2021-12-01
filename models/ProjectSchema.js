@@ -8,7 +8,7 @@ const CvProj = new Schema({
   CVId: {type: mongoose.Schema.Types.ObjectId, ref: 'BLCV'},
   ProjStatus:{type:Number,default:1},
   ProjName:{type:String,required:true},
-  projDesc:{type:String,required:true},
+  ProjDesc:{type:String,required:true},
   ProjJob:{type:String}, 
   ProjUrl:{type:String},
   ProjImage:{type:String,default:'default proj image'},

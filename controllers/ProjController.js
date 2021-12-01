@@ -9,16 +9,6 @@ const facade = require('../others/facades');
 
 exports.Save = function(req,res,next){
 
-    // ProjStatus:{type:Number,default:1},
-    // ProjName:{type:String,required:true},
-    // projDesc:{type:String,required:true},
-    // ProjJob:{type:String}, 
-    // ProjUrl:{type:String},
-    // ProjImage:{type:String},
-    // ProjDate:{type:Date,required:true},
-    // ProjSkill:[{type: mongoose.Schema.Types.ObjectId, ref: 'BLCVSkill'}]
-
-
     //validate inputs 
     const errors = validationResult(req);
     if(errors.errors.length > 0 ){
@@ -38,7 +28,7 @@ exports.Save = function(req,res,next){
     var SaveProj = new ProjModel;
     SaveProj.CVId=CvId;
     SaveProj.ProjName=req.body.ProjNameI;
-    SaveProj.projDesc=req.body.ProjDescI;
+    SaveProj.ProjDesc=req.body.ProjDescI;
     SaveProj.ProjJob=req.body.ProjJobI;
     SaveProj.ProjUrl=req.body.ProjUrlI;
     SaveProj.ProjImage=req.body.ProjImageI;
@@ -50,8 +40,20 @@ exports.Save = function(req,res,next){
 
             //Push Skills
             facade.PushToCvArr(CvId,'CVProj',SaveProj._id)
-            return res.send('Proj Saved');
+            ProjModel.find({CVID:CvId},function(err2,result2){
 
+                if(!err2){
+                    return res.status(201).json({
+                        status:true,
+                        items:{
+                            item:result,
+                            list:result2
+                        }
+                    });
+                }
+
+            })
+            
         }
         else{
             return res.send('Unable To Save Proj');
@@ -78,15 +80,6 @@ exports.Update = function(req,res,next){
     if(!ObjectId.isValid(ProjId)){
         return res.send('Param Not Valid');
     }
-
-    // ProjStatus:{type:Number,default:1},
-    // ProjName:{type:String,required:true},
-    // projDesc:{type:String,required:true},
-    // ProjJob:{type:String}, 
-    // ProjUrl:{type:String},
-    // ProjImage:{type:String},
-    // ProjDate:{type:Date,required:true},
-    // ProjSkill:[{type: mongoose.Schema.Types.ObjectId, ref: 'BLCVSkill'}]
 
     var Update = {
 

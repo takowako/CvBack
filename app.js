@@ -26,7 +26,7 @@ app.use(morgan('dev'));
 
 //conect To MongoDB
 var mongoDB = process.env.MONGOURL; 
-var mongoDB='mongodb://127.0.0.1/BlaxkCV';
+//var mongoDB='mongodb://127.0.0.1/BlaxkCV';
 mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology: true});
 var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors) 
@@ -37,7 +37,8 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 //Use Routes
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
   next();
 });
 

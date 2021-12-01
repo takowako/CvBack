@@ -34,7 +34,20 @@ exports.Save= function(req,res,next){
         if(!err){
             //push ref to Cv Exp Arr
             facade.PushToCvArr(CvId,'CVReff',SaveRef._id)
-            return res.send('Reff Saved');
+
+            //ge list of reffrences
+            RefModel.find({CVId:CvId},function(err2,result2){
+
+                if(!err2){
+                    return res.status(201).json({
+                        status:true,
+                        items:{
+                            item:result,
+                            list:result2
+                        }
+                    });
+                }
+            })
         }
 
     })
