@@ -15,4 +15,8 @@ router.put('/:skId',auth.validateToken,Validate.SkillValidate,SkController.Updat
 
 router.delete('/:skId',auth.validateToken,SkController.Delete);
 
+router.post('/push',auth.validateToken,SkController.Push)
+
+router.post('/pull',auth.validateToken,SkController.Pull)
+
 module.exports = router;

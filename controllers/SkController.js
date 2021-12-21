@@ -1,7 +1,12 @@
 const { validationResult } = require('express-validator')
+var ObjectId = require('mongoose').Types.ObjectId;
+
+
 const SkillModel = require('../models/SkillSchema')
 const CVModel = require("../models/CvSchema");
-var ObjectId = require('mongoose').Types.ObjectId;
+const ExpModel = require('../models/ExperianceSchema');
+const EduModel=require('../models/EducationSchema');
+
 const facade=require('../others/facades')
 
 exports.Save = function(req,res,next){
@@ -94,14 +99,7 @@ exports.Update = function(req,res,next){
         else{
             return res.send('Unable To Update Skill')
         }
-
-
     })
- 
-
-
-
-
 }
 
 
@@ -136,11 +134,176 @@ exports.Delete=function(req,res,next){
             })
         }
         else{
-            return res.status(402).json({
+            return res.status(400).json({
                 success:false,
                 items:null
             });
         }
     })
+
+}
+
+exports.Push=function(req,res,next){
+
+    //validate inputs
+    var type= req.body.type;
+    var item = req.body.item;
+    var skill = req.body.skill;
+
+
+    //check type of item
+    if(type === 'experiance'){
+
+        ExpModel.findOne({_id:item},function(err,result){
+
+            if(!err && result){
+    
+              //check if skill is unique
+              if(result.ExpSkill.includes(skill)){
+                return res.status(400).json({
+                    status:true,
+                    message:'Skill Already Exist',
+                    items:{
+                        item:null
+                    }
+                });
+            }
+            else{
+              
+                //push skill to experiance
+              result.ExpSkill.push(skill);
+              result.save();
+                
+              return res.status(200).json({
+                status:true,
+                message:'Skill Pushed',
+                items:{
+                 item:result
+                }
+              });
+            }
+            }
+            else{
+                res.send('unable to Update Experiance Skill');
+            }
+        })
+    }
+    else if(type === 'education'){
+
+        EduModel.findOne({_id:item},function(err,result){
+
+            if(!err && result){
+
+             //cHECK IF Skill is unique
+             if(result.EduSkill.includes(skill)){
+
+                return res.status(400).json({
+                    status:true,
+                    message:'Skill Already Exist',
+                    items:{
+                        item:null
+                    }
+                });
+             }
+             else{
+                 
+                result.EduSkill.push(skill);
+                result.save();
+    
+                return res.status(200).json({
+                    status:true,
+                    message:'Skill Pushed',
+                    items:{
+                     item:result
+                    }
+                });
+
+             }
+            }
+            else{
+                res.send('unable to Update Experiance Skill');
+            }
+        })
+    }
+    else{
+        res.send('wrong filte type');
+    }
+
+}
+
+
+exports.Pull=function(req,res,next){
+
+    //validate inputs
+    var type= req.body.type;
+    var item = req.body.item;
+    var skill = req.body.skill;
+
+    if(type === 'experiance'){
+        ExpModel.findOne({_id:item},function(err,result){
+            if(!err && result){
+
+                //check skill in skill arr 
+                if(result.ExpSkill.includes(skill)){
+                    
+                    //pull skill 
+                    result.ExpSkill.pull(skill);
+                    result.save();
+                      
+                    return res.status(200).json({
+                      status:true,
+                      message:'Skill pulled',
+                      items:{
+                       item:result
+                      }
+                    });
+                }
+                else{
+                    return res.status(400).json({
+                        status:true,
+                        message:'uable to pull skill',
+                        items:null
+                      });
+                }
+            }
+            else{
+                res.send('unable to find experiance');
+            }
+        })
+        
+    }
+    else if (type ==='education'){
+        EduModel.findOne({_id:item},function(err,result){
+            if(!err && result){
+
+                //check skill in skill arr 
+                if(result.EduSkill.includes(skill)){
+                    
+                    //pull skill 
+                    result.EduSkill.pull(skill);
+                    result.save();
+                      
+                    return res.status(200).json({
+                      status:true,
+                      message:'Skill pulled',
+                      items:{
+                       item:result
+                      }
+                    });
+                }
+                else{
+                    return res.status(400).json({
+                        status:true,
+                        message:'uable to pull skill',
+                        items:null
+                      });
+                }
+            }
+            else{
+                res.send('unable to find experiance');
+            }
+        })
+    }
+
 
 }
