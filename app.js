@@ -13,6 +13,7 @@ const SkillRoutes = require('./routes/v1/SkRoutes')
 const UserRoutes = require('./routes/v1/UserRoutes')
 const ReffRoutes = require('./routes/v1/RefRoutes')
 const projRoutes = require('./routes/v1/ProjRoutes')
+const orgRoutes = require('./routes/v1/OrgRoutes')
 
 
 
@@ -47,6 +48,7 @@ app.use('/api/v1/Edu',EduRoutes)
 app.use('/api/v1/Skill',SkillRoutes)
 app.use('/api/v1/Reff',ReffRoutes)
 app.use('/api/v1/Proj',projRoutes)
+app.use('/api/v1/Org',orgRoutes)
 app.use('/api/v1/User/',UserRoutes)
 
 

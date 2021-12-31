@@ -185,3 +185,25 @@ exports.ProjValidate=[
         .withMessage('Project Date is required'),
 ]
 //End Project validate
+
+
+
+//Organization validate
+
+exports.OrgValidate=[
+        check('OrgNameI').notEmpty()
+        .withMessage('Organization Name Is required'),
+
+        check('OrgDescI').notEmpty()
+        .withMessage('Organization Descreption Is Required'),
+
+        check('OrgJobI').notEmpty()
+        .withMessage('Organization Job Is Required'),
+
+        check('OrgFromI').notEmpty()
+        .withMessage('Organization From Date Is Required'),
+
+        check('OrgToI').notEmpty()
+        .withMessage('Organization To Date Is Required '),
+]
+//end organization validate

@@ -10,7 +10,8 @@ const CvModel= new Schema({
     CVSkill:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVSkill'}],
     CVReff:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVRef'}],
     CVContact:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVContact'}],
-    CVProj:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVProj'}]
+    CVProj:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVProj'}],
+    CVOrg:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVOrg'}]
 })
 
 module.exports = mongoose.model('BLCV', CvModel);

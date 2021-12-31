@@ -47,9 +47,13 @@ exports.Get= function(req,res){
                 },
                 {
                     path:'CVContact'
+                },
+                {
+                    path:'CVOrg'
                 }
             ]
     }
+
 
     var user = UserModel.findById(u._id).populate(popObj).exec(function(err,result){
         console.log(err)
@@ -62,7 +66,8 @@ exports.Get= function(req,res){
                     Skill:result.CVUCvId.CVSkill,
                     Reff:result.CVUCvId.CVReff,
                     Contacts:result.CVUCvId.CVContact,
-                    Proj:result.CVUCvId.CVProj
+                    Proj:result.CVUCvId.CVProj,
+                    Org:result.CVUCvId.CVOrg
                 }
             });
         }
