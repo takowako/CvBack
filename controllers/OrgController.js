@@ -23,7 +23,7 @@ exports.Save = function(req,res,next){
 
     var saveOrg=new OrgModel();
     saveOrg.CVId=CvId;
-    saveOrg.OrgTitle=req.body.OrgNameI;
+    saveOrg.OrgTitle=req.body.OrgTitleI;
     saveOrg.OrgDesc=req.body.OrgDescI;
     saveOrg.OrgJob=req.body.OrgJobI;
     saveOrg.OrgFrom=req.body.OrgFromI;
@@ -49,5 +49,73 @@ exports.Save = function(req,res,next){
 
         }
     })
+
+}
+
+
+exports.Update=function(req,res,next){
+
+    //validate Inputs 
+    const errors = validationResult(req);
+    if(errors.errors.length > 0 ){
+        return  res.json({
+            success:false,
+            payload:errors.errors,
+            msg:'Validation Error' 
+        });
+    }
+
+    var OrgId=req.params.orgId;
+    if(!ObjectId.isValid(OrgId)){
+        return res.send('Param Not Valid');
+    }
+
+    var Update={
+        OrgTitle:req.body.OrgTitleI,
+        OrgDesc:req.body.OrgDescI, 
+        OrgJob:req.body.OrgJobI,
+        OrgFrom:req.body.OrgFromI,
+        OrgTo:req.body.OrgToI,
+        
+    }
+
+    OrgModel.findOneAndUpdate({_id:OrgId},Update,function(err,result){
+
+        if(!err && result){            
+            result.save();
+            res.send('Org Updated');
+        }
+        else{
+            res.send('Unable to Find Organization')
+        }
+
+    })
+
+}
+
+
+exports.Delete = function(req,res,next){
+
+    var OrgId=req.params.orgId;
+    if(!ObjectId.isValid(OrgId)){
+        return res.send('Param Not Valid');
+    }
+
+
+    //Check Organization & Delete
+    OrgModel.findOneAndDelete({_id:OrgId},function(err,result){
+
+        if(!err && result){
+            //Get CV & Remove Organization Id From CVProj
+            facade.PullCvArr(result.CVId,'CVOrg',OrgId)
+            res.send('Organization Deleted');
+        }
+        else{
+            return res.send('Unable To Delete Organization');
+        }
+
+    })
+
+
 
 }

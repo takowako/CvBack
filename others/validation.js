@@ -38,7 +38,7 @@ exports.SaveUserValidate=[
 //End Save User Validation
 
 
-//Save Experiance Validation
+//Save Experience Validation
 exports.ExpValidate=[
         //Exp Title validate
         check('ExpTitleI').notEmpty()
@@ -50,26 +50,26 @@ exports.ExpValidate=[
 
         //Exp Job Validation
         check('ExpJobI').notEmpty()
-        .withMessage('Experiance Job Is Required'),
+        .withMessage('Experience Job Is Required'),
 
         //Exp from Validation
         check('ExpFromI').notEmpty()
         .withMessage('Expreiance From Date Is Required'),
 
         // check('ExpFromI').isISO8601().toDate()
-        // .withMessage('Invalid Experiance From Date'),
+        // .withMessage('Invalid Experience From Date'),
 
         //Exp To Validation
         check('ExpToI').notEmpty()
-        .withMessage('Experiance To Date Is Required '),
+        .withMessage('Experience To Date Is Required '),
 
         // check('ExpToI').isISO8601().toDate()
-        // .withMessage('Invalid Experiance to Date '),
+        // .withMessage('Invalid Experience to Date '),
 
         //Exp Skill Validation
 
 ]
-//End Save Experiance Validation
+//End Save Experience Validation
 
 
 //Save Skill Validation
@@ -191,8 +191,8 @@ exports.ProjValidate=[
 //Organization validate
 
 exports.OrgValidate=[
-        check('OrgNameI').notEmpty()
-        .withMessage('Organization Name Is required'),
+        check('OrgTitleI').notEmpty()
+        .withMessage('Organization Title Is required'),
 
         check('OrgDescI').notEmpty()
         .withMessage('Organization Descreption Is Required'),

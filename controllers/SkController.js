@@ -4,7 +4,7 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 const SkillModel = require('../models/SkillSchema')
 const CVModel = require("../models/CvSchema");
-const ExpModel = require('../models/ExperianceSchema');
+const ExpModel = require('../models/ExperienceSchema');
 const EduModel=require('../models/EducationSchema');
 
 const facade=require('../others/facades')
@@ -152,7 +152,7 @@ exports.Push=function(req,res,next){
 
 
     //check type of item
-    if(type === 'experiance'){
+    if(type === 'experience'){
 
         ExpModel.findOne({_id:item},function(err,result){
 
@@ -170,7 +170,7 @@ exports.Push=function(req,res,next){
             }
             else{
               
-                //push skill to experiance
+                //push skill to experience
               result.ExpSkill.push(skill);
               result.save();
                 
@@ -184,7 +184,7 @@ exports.Push=function(req,res,next){
             }
             }
             else{
-                res.send('unable to Update Experiance Skill');
+                res.send('unable to Update Experience Skill');
             }
         })
     }
@@ -221,7 +221,7 @@ exports.Push=function(req,res,next){
              }
             }
             else{
-                res.send('unable to Update Experiance Skill');
+                res.send('unable to Update Experience Skill');
             }
         })
     }
@@ -239,7 +239,7 @@ exports.Pull=function(req,res,next){
     var item = req.body.item;
     var skill = req.body.skill;
 
-    if(type === 'experiance'){
+    if(type === 'experience'){
         ExpModel.findOne({_id:item},function(err,result){
             if(!err && result){
 
@@ -267,7 +267,7 @@ exports.Pull=function(req,res,next){
                 }
             }
             else{
-                res.send('unable to find experiance');
+                res.send('unable to find experience');
             }
         })
         
@@ -300,7 +300,7 @@ exports.Pull=function(req,res,next){
                 }
             }
             else{
-                res.send('unable to find experiance');
+                res.send('unable to find experience');
             }
         })
     }

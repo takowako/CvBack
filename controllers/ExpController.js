@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const CvModel=require('../models/CvSchema');
-const ExpModel = require('../models/ExperianceSchema');
+const ExpModel = require('../models/ExperienceSchema');
 
 
 const facade = require('../others/facades');
@@ -37,7 +37,7 @@ exports.Save = function(req,res,next) {
             facade.PushToCvArr(CvId,'CVExp',saveExp._id)
 
             
-            //get list of Experiances
+            //get list of Experiences
             var ExpList=ExpModel.find({CVId:CvId},).populate({path:'ExpSkill'}).exec(function(err2,result2){
 
                 if(!err2){
@@ -107,7 +107,7 @@ exports.Update=function(req,res,next){
 
         }
         else{
-            res.send('Unable to Find Experiance')
+            res.send('Unable to Find Experience')
         }
 
     })
@@ -132,10 +132,10 @@ exports.Delete=function(req,res,next){
         if(!err && result){
             //Get CV & Remove Edu Id From CVEdu
             facade.PullCvArr(result.CVId,'CVExp',ExpId)
-            res.send('Experiance Deleted');
+            res.send('Experience Deleted');
         }
         else{
-            return res.send('Unable To Delete Experiance');
+            return res.send('Unable To Delete Experience');
         }
     })
 }
