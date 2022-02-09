@@ -13,8 +13,9 @@ const EduRoutes= require('./routes/v1/EduRoutes')
 const SkillRoutes = require('./routes/v1/SkRoutes')
 const UserRoutes = require('./routes/v1/UserRoutes')
 const ReffRoutes = require('./routes/v1/RefRoutes')
-const projRoutes = require('./routes/v1/ProjRoutes')
-const orgRoutes = require('./routes/v1/OrgRoutes')
+const ProjRoutes = require('./routes/v1/ProjRoutes')
+const OrgRoutes = require('./routes/v1/OrgRoutes')
+const AwRoutes = require('./routes/v1/AwRoutes')
 
 
 
@@ -49,8 +50,10 @@ app.use('/api/v1/Exp',ExpRoutes)
 app.use('/api/v1/Edu',EduRoutes)
 app.use('/api/v1/Skill',SkillRoutes)
 app.use('/api/v1/Reff',ReffRoutes)
-app.use('/api/v1/Proj',projRoutes)
-app.use('/api/v1/Org',orgRoutes)
+app.use('/api/v1/Proj',ProjRoutes)
+app.use('/api/v1/Org',OrgRoutes)
+app.use('/api/v1/Aw',AwRoutes)
+
 app.use('/api/v1/User/',UserRoutes)
 
 

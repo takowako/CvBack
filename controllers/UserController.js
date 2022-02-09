@@ -49,6 +49,9 @@ exports.Get= function(req,res){
                 },
                 {
                     path:'CVOrg'
+                },
+                {
+                    path:'CVAw'
                 }
             ]
     }

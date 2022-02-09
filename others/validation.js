@@ -235,3 +235,20 @@ exports.OrgValidate=[
         .withMessage('Organization To Date Is Required '),
 ]
 //end organization validate
+
+
+//Award validate
+exports.AwValidate=[
+        check('AwTitleI').notEmpty()
+        .withMessage('Award Title Is required'),
+
+        check('AwDescI').notEmpty()
+        .withMessage('Award Descreption Is Required'),
+
+        check('AwJobI').notEmpty()
+        .withMessage('Award Job Is Required'),
+
+        check('AwDateI').notEmpty()
+        .withMessage('Award From Date Is Required'),
+]
+//end Award validate
