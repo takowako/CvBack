@@ -18,8 +18,20 @@ exports.Save = function(req,res,next) {
         });
     }
 
-    //get Cv id 
-    var CvId = req.user.CVUCvId;
+    //get && Cv id 
+    var CvId = req.body.ExpCvI;
+    facade.CheckCv(CvId,req.user._id,function(x){
+
+        if(!x){
+            return res.json({
+                success:false,
+                payload:null,
+                msg:'Invalid cv' 
+            });
+
+        }
+    })
+    //res.send(CvId)
 
     //Save Exp
     var saveExp=new ExpModel()

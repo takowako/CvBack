@@ -18,8 +18,19 @@ exports.Save = function(req,res,next){
         });
     }
 
-    //get Cv id 
-    var CvId = req.user.CVUCvId;
+    //get && Cv id 
+    var CvId = req.body.OrgCvI;
+    facade.CheckCv(CvId,req.user._id,function(x){
+
+        if(!x){
+            return res.json({
+                success:false,
+                payload:null,
+                msg:'Invalid cv' 
+            });
+
+        }
+    })
 
     var saveOrg=new OrgModel();
     saveOrg.CVId=CvId;

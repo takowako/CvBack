@@ -12,7 +12,7 @@ exports.Save = function(req,res,next){
     //validate Inputs 
     const errors = validationResult(req);
     if(errors.errors.length > 0 ){
-        res.json({
+        return res.json({
             success:false,
             payload:errors.errors,
             msg:'Validation Error' 
@@ -20,9 +20,20 @@ exports.Save = function(req,res,next){
     }
 
 
-    //get Cv id
-    var CvId = req.user.CVUCvId;
-   console.log(req.user.CVUCvId)
+    //get & Check Cv id
+    var CvId = req.body.EduCvI;
+    facade.CheckCv(CvId,req.user._id,function(x){
+
+        if(!x){
+            return res.json({
+                success:false,
+                payload:null,
+                msg:'Invalid cv' 
+            });
+
+        }
+    })
+
     var SaveEdu=new EduModel();
     SaveEdu.CVId =CvId;
     SaveEdu.EduTitle=req.body.EduTitleI;

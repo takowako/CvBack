@@ -18,7 +18,18 @@ exports.Save = function(req,res,next){
     return res.status(422).json({ errors: errors.array() })
     }
  
-    var CvId=req.user.CVUCvId;
+    var CvId=req.body.SkillCvI;
+    facade.CheckCv(CvId,req.user._id,function(x){
+
+        if(!x){
+            return res.json({
+                success:false,
+                payload:null,
+                msg:'Invalid cv' 
+            });
+
+        }
+    })
 
     //generate random color
     var letters = '0123456789ABCDEF';

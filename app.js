@@ -7,6 +7,7 @@ const port = process.env.PORT||5000;
 
 
 //Require routes 
+const CvRoutes = require('./routes/v1/CvRoutes')
 const ExpRoutes = require('./routes/v1/ExpRoutes')
 const EduRoutes= require('./routes/v1/EduRoutes')
 const SkillRoutes = require('./routes/v1/SkRoutes')
@@ -43,6 +44,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use('/api/v1/Cv',CvRoutes)
 app.use('/api/v1/Exp',ExpRoutes)
 app.use('/api/v1/Edu',EduRoutes)
 app.use('/api/v1/Skill',SkillRoutes)

@@ -74,10 +74,6 @@ exports.SaveSkill=function(arr,CvId){
     })
 }
 
-
-
-
-
 exports.PushToCvArr=function(CvId,arr,itemId){
 
     //push item to Cv Arr
@@ -90,7 +86,6 @@ exports.PushToCvArr=function(CvId,arr,itemId){
     })
 }
 
-
 exports.PullCvArr=function(CvId,arr,itemId){
 
     CvModel.findOne({_id:CvId},function(err2,result2){
@@ -100,4 +95,20 @@ exports.PullCvArr=function(CvId,arr,itemId){
             result2.save();
         }
     })
+}
+
+
+exports.CheckCv=function(CvId,UserId,callback){
+
+
+    CvModel.findOne({_id:CvId,CVUId:UserId},function(err2,result2){
+        
+        if(!err2 && result2){
+            callback(result2)
+        }
+        else{
+            callback(null)
+        }                                                                                                                                        
+    })    
+
 }

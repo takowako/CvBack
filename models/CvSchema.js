@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 // CVUserId:{type:mongoose.Schema.Types.ObjectId, ref: 'BLCVUser'},
 
 const CvModel= new Schema({
+    CVName:{type:String,required:true},
+    CVUId:{type:mongoose.Schema.Types.ObjectId, ref: 'BLCVUser',required:true},
     CVExp:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVExp'}],
     CVEdu:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVEdu'}],
     CVSkill:[{type:mongoose.Schema.Types.ObjectId,ref:'BLCVSkill'}],

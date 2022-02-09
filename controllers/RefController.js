@@ -20,7 +20,18 @@ exports.Save= function(req,res,next){
         });
     }
 
-    var CvId = req.user.CVUCvId;
+    var CvId = req.body.RefCvI;
+    facade.CheckCv(CvId,req.user._id,function(x){
+
+        if(!x){
+            return res.json({
+                success:false,
+                payload:null,
+                msg:'Invalid cv' 
+            });
+
+        }
+    })
     //console.log(req.user)
 
     var SaveRef = new RefModel();

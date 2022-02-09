@@ -38,6 +38,16 @@ exports.SaveUserValidate=[
 //End Save User Validation
 
 
+//Save Cv Validation
+exports.CvValidate=[
+        //Cv Name validate
+        check('CvNameI').notEmpty()
+        .withMessage('Cv Name is required'),
+        
+]
+//End Save Cv Validation
+
+
 //Save Experience Validation
 exports.ExpValidate=[
         //Exp Title validate
@@ -68,6 +78,10 @@ exports.ExpValidate=[
 
         //Exp Skill Validation
 
+        //Exp Cv validation
+        check('ExpCvI').notEmpty()
+        .withMessage('Experience Cv Required'),
+
 ]
 //End Save Experience Validation
 
@@ -87,6 +101,9 @@ exports.SkillValidate=[
         check('SkillValI').notEmpty()
         .withMessage('Skill Value is required'),
 
+        check('SkillCvI').notEmpty()
+        .withMessage('Skill Cv is required'),
+
 ]
 //End Save Skill Validation
 
@@ -97,23 +114,27 @@ exports.EduValidate=[
         check('EduTitleI').notEmpty()
         .withMessage('Education Title is required'),
 
-        //Exp Description validation
+        //Edu Descreption validation
         check('EduDescI').notEmpty()
         .withMessage('Education Description Is Required'),
 
-        //Exp Type validatione
+        //Edu Type validatione
         check('EduTypeI').notEmpty()
         .withMessage('Education Type Is required'),
 
-        //Exp from Validation
+        //Edu from Validation
         check('EduFromI').notEmpty()
         .withMessage('Education From Date Is Required'),
 
-        //Exp To Validation
+        //Edu To Validation
         check('EduToI').notEmpty()
         .withMessage('Education To Date Is Required '),
 
-        //Exp Skill Validation
+        //Edu Cv validation
+        check('EduCvI').notEmpty()
+        .withMessage('Education Cv Required'),
+
+        //Edu Skill Validation
         // check('EduSkillI').notEmpty()
         // .withMessage('Education Skill Is Required'),
 
@@ -147,6 +168,9 @@ exports.Refvalidate=[
 
         check('RefPhoneI').isMobilePhone()
         .withMessage('Reff Mobile Number Is Wrong'),
+        
+        check('RefCvI').notEmpty()
+        .withMessage('Reff Cv is required'),
 
 ];
 //Save Reff Validation End
@@ -183,6 +207,10 @@ exports.ProjValidate=[
 
         check('ProjDateI').notEmpty()
         .withMessage('Project Date is required'),
+
+        check('ProjCvI').notEmpty()
+        .withMessage('Project Cv is required'),
+
 ]
 //End Project validate
 
