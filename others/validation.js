@@ -38,6 +38,23 @@ exports.SaveUserValidate=[
 //End Save User Validation
 
 
+//User Login Validate 
+exports.LoginUserValidate = [
+
+        //User mail
+        check('MailI').notEmpty()
+        .withMessage('User Mail   is required'),
+
+        check('MailI').isEmail()
+        .withMessage('Mail Is Wrong'),
+
+        //Password
+        check('PassI').notEmpty()
+        .withMessage('Password Is Required'),
+];
+
+//End User login Validate 
+
 //Save Cv Validation
 exports.CvValidate=[
         //Cv Name validate
@@ -174,25 +191,6 @@ exports.Refvalidate=[
 
 ];
 //Save Reff Validation End
-
-
-//User Login Validate 
-exports.LoginUserValidate = [
-
-        //User mail
-        check('MailI').notEmpty()
-        .withMessage('User Mail   is required'),
-
-        check('MailI').isEmail()
-        .withMessage('Mail Is Wrong'),
-
-        //Password
-        check('PassI').notEmpty()
-        .withMessage('Password Is Required'),
-];
-
-//End User login Validate 
-
 
 
 //Projecct Validate

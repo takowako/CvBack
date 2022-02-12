@@ -1,10 +1,10 @@
 const { validationResult } = require('express-validator');
 
-const ProjModel=require('../models/ProjectSchema');
-const CvModel=require('../models/CvSchema');
+const ProjModel=require('../../models/ProjectSchema');
+const CvModel=require('../../models/CvSchema');
 
 var ObjectId = require('mongoose').Types.ObjectId;
-const facade = require('../others/facades');
+const facade = require('../../others/facades');
 
 
 exports.Save = function(req,res,next){

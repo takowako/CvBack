@@ -1,8 +1,8 @@
 const express = require('express')
 
-const AwController =require('../../controllers/AwController')
-const Validate = require('../../others/validation')
-const auth = require('../../others/auth');
+const AwController =require('../../../controllers/api/AwController')
+const Validate = require('../../../others/validation')
+const auth = require('../../../others/auth');
 
 var router = express.Router();
 

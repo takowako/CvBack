@@ -1,9 +1,9 @@
 const express = require('express');
 
 
-const RefController = require('../../controllers/RefController')
-const Validate = require('../../others/validation')
-const auth = require('../../others/auth');
+const RefController = require('../../../controllers/api/RefController')
+const Validate = require('../../../others/validation')
+const auth = require('../../../others/auth');
 
 const router = express.Router();
 

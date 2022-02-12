@@ -1,8 +1,8 @@
 const express = require('express');
 
-const CvController = require('../../controllers/CvController');
-const Validate = require('../../others/validation');
-const auth = require('../../others/auth');
+const CvController = require('../../../controllers/api/CvController');
+const Validate = require('../../../others/validation');
+const auth = require('../../../others/auth');
 
 const router = express.Router();
 

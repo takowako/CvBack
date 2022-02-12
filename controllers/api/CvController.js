@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator')
-const CvModel = require('../models/CvSchema');
-const UserModel = require('../models/UserSchema');
+const CvModel = require('../../models/CvSchema');
+const UserModel = require('../../models/UserSchema');
 
 
 exports.Save =function(req,res,next){

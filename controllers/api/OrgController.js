@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
-const CvModel=require('../models/CvSchema');
-const AwModel=require('../models/AwSchema');
+const CvModel=require('../../models/CvSchema');
+const OrgModel=require('../../models/OrganizationSchema');
 
-const facade = require('../others/facades');
+const facade = require('../../others/facades');
 var ObjectId = require('mongoose').Types.ObjectId;
 
 
@@ -19,7 +19,7 @@ exports.Save = function(req,res,next){
     }
 
     //get && Cv id 
-    var CvId = req.body.AwCvI;
+    var CvId = req.body.OrgCvI;
     facade.CheckCv(CvId,req.user._id,function(x){
 
         if(!x){
@@ -32,20 +32,20 @@ exports.Save = function(req,res,next){
         }
     })
 
-    var saveAw=new AwModel();
-    saveAw.CVId=CvId;
-    saveAw.AwTitle=req.body.AwTitleI;
-    saveAw.AwDesc=req.body.AwDescI;
-    saveAw.AwJob=req.body.AwJobI;
-    saveAw.AwDate=req.body.AwDateI;
+    var saveOrg=new OrgModel();
+    saveOrg.CVId=CvId;
+    saveOrg.OrgTitle=req.body.OrgTitleI;
+    saveOrg.OrgDesc=req.body.OrgDescI;
+    saveOrg.OrgJob=req.body.OrgJobI;
+    saveOrg.OrgFrom=req.body.OrgFromI;
+    saveOrg.OrgTo=req.body.OrgToI;
     
-    saveAw.save(function(err,result){
-        console.log(err)
+    saveOrg.save(function(err,result){
         if(!err){
-            facade.PushToCvArr(CvId,'CVAw',saveAw._id)
+            facade.PushToCvArr(CvId,'CVOrg',saveOrg._id)
 
-            //get list of Award
-            AwModel.find({CVId:CvId}).exec(function(err2,result2){
+            //get list of organization
+            OrgModel.find({CVId:CvId}).exec(function(err2,result2){
 
                 if(!err2){
                     return res.status(201).json({
@@ -76,28 +76,28 @@ exports.Update=function(req,res,next){
         });
     }
 
-    var AwId=req.params.awId;
-    if(!ObjectId.isValid(AwId)){
+    var OrgId=req.params.orgId;
+    if(!ObjectId.isValid(OrgId)){
         return res.send('Param Not Valid');
     }
 
     var Update={
-        AwTitle:req.body.AwTitleI,
-        AwDesc:req.body.AwDescI, 
-        AwJob:req.body.AwJobI,
-        AwDate:req.body.AwDateI,
-
+        OrgTitle:req.body.OrgTitleI,
+        OrgDesc:req.body.OrgDescI, 
+        OrgJob:req.body.OrgJobI,
+        OrgFrom:req.body.OrgFromI,
+        OrgTo:req.body.OrgToI,
         
     }
 
-    AwModel.findOneAndUpdate({_id:AwId},Update,function(err,result){
+    OrgModel.findOneAndUpdate({_id:OrgId},Update,function(err,result){
 
         if(!err && result){            
             result.save();
-            res.send('Aw Updated');
+            res.send('Org Updated');
         }
         else{
-            res.send('Unable to Find Award')
+            res.send('Unable to Find Organization')
         }
 
     })
@@ -107,22 +107,22 @@ exports.Update=function(req,res,next){
 
 exports.Delete = function(req,res,next){
 
-    var AwId=req.params.awId;
-    if(!ObjectId.isValid(AwId)){
+    var OrgId=req.params.orgId;
+    if(!ObjectId.isValid(OrgId)){
         return res.send('Param Not Valid');
     }
 
 
-    //Check Award & Delete
-    AwModel.findOneAndDelete({_id:AwId},function(err,result){
+    //Check Organization & Delete
+    OrgModel.findOneAndDelete({_id:OrgId},function(err,result){
 
         if(!err && result){
-            //Get CV & Remove Award Id From CVProj
-            facade.PullCvArr(result.CVId,'CVAw',AwId)
-            res.send('Award Deleted');
+            //Get CV & Remove Organization Id From CVProj
+            facade.PullCvArr(result.CVId,'CVOrg',OrgId)
+            res.send('Organization Deleted');
         }
         else{
-            return res.send('Unable To Delete Award');
+            return res.send('Unable To Delete Organization');
         }
 
     })

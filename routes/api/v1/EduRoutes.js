@@ -1,9 +1,9 @@
 const express = require('express');
 
 
-const EduController = require('../../controllers/EduController');
-const Validate = require('../../others/validation');
-const auth = require('../../others/auth');
+const EduController = require('../../../controllers/api/EduController');
+const Validate = require('../../../others/validation');
+const auth = require('../../../others/auth');
 
 const router = express.Router();
 

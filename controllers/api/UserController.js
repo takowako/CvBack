@@ -1,8 +1,9 @@
 const { validationResult } = require('express-validator')
-const UserModel = require('../models/UserSchema');
-const facades = require('../others/facades');
-const auth = require('../others/auth');
+const UserModel = require('../../models/UserSchema');
+const facades = require('../../others/facades');
+const auth = require('../../others/auth');
 const bcrypt = require('bcryptjs');
+const axios = require('axios')
 
 
 
@@ -111,9 +112,9 @@ exports.Save= function(req,res,next){
         SaveUser.CVUserPlan=0;
         SaveUser.CVUserPass=SaveUser.encryptPassword('123456');
         SaveUser.save(function(err2,result2){
-            if(!err2){
+            if(!err2 && result2 ){
         
-                var token = auth.generateToken({user:result2})
+                var token = auth.generateToken(result2.toJSON())
                 return res.send(token);
             }
         })
@@ -151,12 +152,92 @@ exports.Login = function(req,res,next){
             else{
                 return res.send('Wrong username or passwotd');
             }
-    
 
         }
 
     }).lean();
-
-     //res.send(CheckUser.length);
-
+    //res.send(CheckUser.length);
 }
+
+
+exports.loginGoogle=function(req,res,next){
+    
+    var code =req.query.code;
+    axios({
+        url: `https://oauth2.googleapis.com/token`,
+        method: 'post',
+        data: {
+          client_id: process.env.GOOGLE_CLI_ID,
+          client_secret: process.env.GOOGLE_CLI_SECERET,
+          redirect_uri: process.env.GOOGLE_CLI_REDIRECT_URL,
+          grant_type: 'authorization_code',
+          code,
+        },
+    }).then(function(resp){
+
+        //get user data 
+        axios({
+            url: 'https://www.googleapis.com/oauth2/v2/userinfo',
+            method: 'get',
+            headers: {
+              Authorization: `Bearer ${resp.data.access_token}`,
+            },
+        }).then(function(resp2){
+            
+            //check if use exist 
+            UserModel.findOne({CVUserMail:resp2.data.email},function(err3,result){
+
+                //res.send(result) 
+                if(!err3 && result ){
+                    var token = auth.generateToken(result.toJSON())
+                    return res.send(token);
+                }
+                else{
+
+                    //register new user
+                    
+                        //generate random password
+                        let password = (Math.random() + 1).toString(36).substring(2);
+                        var mail=resp2.data.email;
+                        var username=mail.split('@');
+                          
+                        //Create New User
+                        var SaveUser= new UserModel();
+                  
+                        SaveUser.CVUserName=username[0];
+                        SaveUser.CVFullName=resp2.data.name;
+                        SaveUser.CVUserMail=mail;
+                        SaveUser.CVUserFrom='google';
+                        SaveUser.CVUserStatus=1;
+                        SaveUser.CVUserPlan=0;
+                        SaveUser.CVUserPass=SaveUser.encryptPassword(password);
+                        SaveUser.save(function(err2,result2){
+                            if(!err2 && result2){
+                                var token = auth.generateToken(result2.toJSON())
+                                return res.send(token);
+                            }
+                        })
+                }
+
+            })
+        })
+        .catch(err2 => next(err2));
+
+    })
+    .catch(err => next(err));
+    //console.log(test)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
