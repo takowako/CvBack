@@ -15,7 +15,7 @@ router.post('/login',Validate.LoginUserValidate,UserController.Login)
 
 router.get('/loginGoogle',UserController.loginGoogle)
 
-
+router.get('/loginGithub',UserController.loginGithub)
 
 
 module.exports = router;

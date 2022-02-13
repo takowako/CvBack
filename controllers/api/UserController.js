@@ -1,9 +1,10 @@
 const { validationResult } = require('express-validator')
+const queryString =require('query-string')
+const bcrypt = require('bcryptjs');
+const axios = require('axios')
 const UserModel = require('../../models/UserSchema');
 const facades = require('../../others/facades');
 const auth = require('../../others/auth');
-const bcrypt = require('bcryptjs');
-const axios = require('axios')
 
 
 
@@ -211,8 +212,8 @@ exports.loginGoogle=function(req,res,next){
                         SaveUser.CVUserStatus=1;
                         SaveUser.CVUserPlan=0;
                         SaveUser.CVUserPass=SaveUser.encryptPassword(password);
-                        SaveUser.save(function(err2,result2){
-                            if(!err2 && result2){
+                        SaveUser.save(function(err3,result2){
+                            if(!err3 && result2){
                                 var token = auth.generateToken(result2.toJSON())
                                 return res.send(token);
                             }
@@ -226,6 +227,82 @@ exports.loginGoogle=function(req,res,next){
     })
     .catch(err => next(err));
     //console.log(test)
+}
+
+
+
+exports.loginGithub=function(req,res,next){
+
+    var code =req.query.code;
+
+    axios({
+        url: 'https://github.com/login/oauth/access_token',
+        method: 'get',
+        params: {
+          client_id: process.env.GITHUB_CLI_ID,
+          client_secret: process.env.GITHUB_CLI_SECERET,
+          redirect_uri: process.env.GITHUB_CLI_REDIRECT_URL,
+          code,
+        },
+      }).then(function(resp){
+
+        const parsedData = queryString.parse(resp.data);
+        console.log(parsedData.access_token); 
+        axios({
+            url: 'https://api.github.com/user/emails',
+            method: 'get',
+            headers: {
+              Authorization: `token ${parsedData.access_token}`,
+            },
+          }).then(function(resp2){
+
+            //check if use exist 
+            UserModel.findOne({CVUserMail:resp2.data[0].email},function(err3,result){
+
+                //res.send(result) 
+                if(!err3 && result ){
+                    var token = auth.generateToken(result.toJSON())
+                    return res.send(token);
+                }
+                else{
+
+                    //register new user
+                    
+                        //generate random password
+                        let password = (Math.random() + 1).toString(36).substring(2);
+                        var mail=resp2.data[0].email;
+                        var username=mail.split('@');
+                            
+                        //Create New User
+                        var SaveUser= new UserModel();
+                    
+                        SaveUser.CVUserName=username[0];
+                        SaveUser.CVFullName=username[0];
+                        SaveUser.CVUserMail=mail;
+                        SaveUser.CVUserFrom='github';
+                        SaveUser.CVUserStatus=1;
+                        SaveUser.CVUserPlan=0;
+                        SaveUser.CVUserPass=SaveUser.encryptPassword(password);
+                        SaveUser.save(function(err3,result2){
+                            if(!err3 && result2){
+                                var token = auth.generateToken(result2.toJSON())
+                                return res.send(token);
+                            }
+                        })
+                }
+
+            })
+
+          }).catch(err2 => next(err2));
+       
+        //res.send(resp.data)
+
+      })
+      .catch(err => next(err));
+
+    //res.send(code)
+
+
 }
 
 

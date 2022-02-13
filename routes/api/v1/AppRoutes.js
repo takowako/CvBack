@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/init',function(req,res){
 
     //perpare google auth link
-    const stringifiedParams = queryString.stringify({
+    const googlestringifiedParams = queryString.stringify({
         client_id:process.env.GOOGLE_CLI_ID,
         redirect_uri: process.env.GOOGLE_CLI_REDIRECT_URL,
         scope: [
@@ -18,18 +18,32 @@ router.get('/init',function(req,res){
         response_type: 'code',
     });
 
-    const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
-    res.send(googleLoginUrl)
-    
-
-    //prepare facebook login link
-
-
     //prepare github link
-
-
+    const githubstringifiedParams = queryString.stringify({
+      client_id: process.env.GITHUB_CLI_ID,
+      redirect_uri: process.env.GITHUB_CLI_REDIRECT_URL,
+      scope: ['user'].join(' '), // space seperated string
+      allow_signup: true,
+    });
+    
     //prepare linkedin link
+    const linkedinstringifiedParams = queryString.stringify({
+      client_id: process.env.LINKEDIN_CLI_ID,
+      redirect_uri: process.env.LINKEDIN_CLI_REDIRECT_URL,
+      scope: [
+        'r_emailaddress',
+      ].join(' '), // space seperated string
+      response_type: 'code',
 
+    });
+    
+    //prepare facebook login link
+    
+    const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${googlestringifiedParams}`;
+    const githubLoginUrl = `https://github.com/login/oauth/authorize?${githubstringifiedParams}`;
+    const linkedinLoginUrl= `https://www.linkedin.com/oauth/v2/authorization?${linkedinstringifiedParams}`
+    res.send(linkedinLoginUrl)
+    
 
 
 
