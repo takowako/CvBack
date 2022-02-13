@@ -17,5 +17,7 @@ router.get('/loginGoogle',UserController.loginGoogle)
 
 router.get('/loginGithub',UserController.loginGithub)
 
+router.get('/loginLinkedin',UserController.loginLinkedin)
+
 
 module.exports = router;

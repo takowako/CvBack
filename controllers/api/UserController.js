@@ -308,7 +308,81 @@ exports.loginGithub=function(req,res,next){
 
 
 
+exports.loginLinkedin=function(req,res,next){
 
+    var code =req.query.code;
+
+ 
+    axios({
+        url: 'https://www.linkedin.com/oauth/v2/accessToken',
+        method: 'get',
+        params: {
+          client_id: process.env.LINKEDIN_CLI_ID,
+          client_secret: process.env.LINKEDIN_CLI_SECERET,
+          redirect_uri: process.env.LINKEDIN_CLI_REDIRECT_URL,
+          grant_type:'authorization_code',
+          code,
+        },
+      }).then(function(resp){
+
+        axios({
+            url: 'https://api.linkedin.com/v2/emailAddress?q=members&projection=(elements*(handle~))',
+            method: 'get',
+            headers: {
+              Authorization: `Bearer ${resp.data.access_token}`,
+            },
+          }).then(function(resp2){
+
+            var mail=resp2.data.elements[0]["handle~"]['emailAddress'];
+ 
+            //check if use exist 
+            UserModel.findOne({CVUserMail:mail},function(err3,result){
+
+                //res.send(result) 
+                if(!err3 && result ){
+                    var token = auth.generateToken(result.toJSON())
+                    return res.send(token);
+                }
+                else{
+
+                    //register new user
+                    
+                        //generate random password
+                        let password = (Math.random() + 1).toString(36).substring(2);
+                        var mail=resp2.data[0].email;
+                        var username=mail.split('@');
+                            
+                        //Create New User
+                        var SaveUser= new UserModel();
+                    
+                        SaveUser.CVUserName=username[0];
+                        SaveUser.CVFullName=username[0];
+                        SaveUser.CVUserMail=mail;
+                        SaveUser.CVUserFrom='github';
+                        SaveUser.CVUserStatus=1;
+                        SaveUser.CVUserPlan=0;
+                        SaveUser.CVUserPass=SaveUser.encryptPassword(password);
+                        SaveUser.save(function(err3,result2){
+                            if(!err3 && result2){
+                                var token = auth.generateToken(result2.toJSON())
+                                return res.send(token);
+                            }
+                        })
+                }
+
+            })
+
+
+          })
+          .catch(err => console.log(err.response));
+
+        //res.send(resp.data)
+        
+      })
+      .catch(err => console.log(err.response));
+
+
+}
 
 
 
