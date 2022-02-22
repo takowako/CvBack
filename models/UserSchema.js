@@ -5,15 +5,15 @@ const Schema = mongoose.Schema;
 
 const UserModel = new Schema({ 
 
-        CVUserName: {type:String,min:8,required:true},
-        CVFullName:{type:String,min:8,required:true},
-        CVUserMail:{type:String,required:true},
-        CVUserFrom:{type:String,required:true},
-        CVUserStatus:{type:Number,default:0}, //Need Activation
-        CVUserPlan:{type:Number,default:0}, // free Plan
-        CVUCvId:[{type:mongoose.Schema.Types.ObjectId, ref: 'BLCV'}],
-        //CVUClId:[{type:mongoose.Schema.Types.ObjectId, ref: 'BLCL'}],
-        CVUserPass:{type:String,min:8,required:true} 
+    CVUserName: {type:String,min:8,required:true},
+    CVFullName:{type:String,min:8,required:true},
+    CVUserMail:{type:String,required:true},
+    CVUserFrom:{type:String,required:true},
+    CVUserStatus:{type:Number,default:0}, //Need Activation
+    CVUserPlan:{type:Number,default:0}, // free Plan
+    CVUCvId:[{type:mongoose.Schema.Types.ObjectId, ref: 'BLCV'}],
+    CVUClId:[{type:mongoose.Schema.Types.ObjectId, ref: 'BLCL'}],
+    CVUserPass:{type:String,min:8,required:true} 
 });
       
  

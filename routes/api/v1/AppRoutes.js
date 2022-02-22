@@ -38,11 +38,19 @@ router.get('/init',function(req,res){
     });
     
     //prepare facebook login link
+
+
+
     
     const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${googlestringifiedParams}`;
     const githubLoginUrl = `https://github.com/login/oauth/authorize?${githubstringifiedParams}`;
-    const linkedinLoginUrl= `https://www.linkedin.com/oauth/v2/authorization?${linkedinstringifiedParams}`
-    res.send(linkedinLoginUrl)
+    const linkedinLoginUrl= `https://www.linkedin.com/oauth/v2/authorization?${linkedinstringifiedParams}`;
+    var data = {
+      'google':googleLoginUrl,
+      'github':githubLoginUrl,
+      'linkedin':linkedinLoginUrl
+    }
+    res.json(data)
     
 
 

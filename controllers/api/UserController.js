@@ -15,7 +15,7 @@ exports.Get= function(req,res){
     //get user 
     var u = req.user;
 
-    var popObj={
+    var popObj=[{
         path:'CVUCvId',
             populate:[
                 {
@@ -56,7 +56,11 @@ exports.Get= function(req,res){
                     path:'CVAw'
                 }
             ]
+    },
+    {
+        path:'CVUClId'
     }
+    ]
 
 
     var user = UserModel.findById(u._id).populate(popObj).exec(function(err,result){

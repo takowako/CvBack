@@ -65,6 +65,18 @@ exports.CvValidate=[
 //End Save Cv Validation
 
 
+
+//Save Cl Validation
+
+exports.ClValidate=[
+        //Cv Name validate
+        check('ClNameI').notEmpty()
+        .withMessage('Cl Name is required'),
+        
+]
+//End Cl Validation
+
+
 //Save Experience Validation
 exports.ExpValidate=[
         //Exp Title validate
