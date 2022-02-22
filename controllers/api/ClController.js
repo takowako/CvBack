@@ -1,4 +1,7 @@
 const { validationResult } = require('express-validator')
+var ObjectId = require('mongoose').Types.ObjectId;
+
+
 
 const ClModel = require('../../models/ClSchema');
 const UserModel =require('../../models/UserSchema');
@@ -61,14 +64,22 @@ exports.Update=function(req,res){
     }
 
     var Update={
-        ClName:req.body.ClNameI
+        ClName:req.body.ClNameI,
+        CLFullName:req.body.CLFullNameI,
+        CLJob:req.body.CLJobI,
+        CLAddress:req.body.CLAddressI,
+        CLMail:req.body.CLMailI,
+        CLPhone:req.body.CLPhoneI,
+        CLCmpName:req.body.CLCmpNameI,
+        CLCmpHrName:req.body.CLCmpHrNameI,
+        CLBody:req.body.CLBodyI
     }
 
-    CvModel.findOneAndUpdate({_id:ClId},Update,function(err,result){
+    ClModel.findOneAndUpdate({_id:ClId},Update,function(err,result){
 
         if(!err && result){
             console.log('updated')
-            res.send('CV Updated')
+            res.send('Cl Updated')
         }
         else{
             res.send('unable to find cv')
@@ -76,9 +87,6 @@ exports.Update=function(req,res){
 
     })
     
-    res.send('Update cv')
-
-
 }
 
 exports.Delete=function(req,res){

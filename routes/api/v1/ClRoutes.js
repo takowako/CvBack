@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post('/',auth.validateToken,Validate.ClValidate,ClController.Save)
 
-
+router.put('/:clId',auth.validateToken,Validate.ClValidate,ClController.Update)
 
 
 
