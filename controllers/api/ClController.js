@@ -91,6 +91,32 @@ exports.Update=function(req,res){
 
 exports.Delete=function(req,res){
 
-    res.send('Delete Working')
+
+    var ClId=new ObjectId(req.params.clId);
+    if(!ObjectId.isValid(req.params.clId)){
+        return res.send('Param Not Valid');
+    }
+
+    //remove Cl From User arr
+    ClModel.findByIdAndDelete(ClId,function(err,result){
+        
+        UserModel.findOne({_id:req.user._id},function(err2,result2){
+    
+            if(result2 && !err2){
+                result2['CVUCvId'].pull(result._id)
+                result2.save();
+                res.send('Cv Deleted ')
+                
+            }
+        })
+    })
+
+
+    // ClModel.findByIdAndDelete(ClId,function(err,result){
+    //     console.log(result)
+    //     res.send('Cl Deleted ')
+    // })
+
+   // res.send('Delete Working')
 
 }

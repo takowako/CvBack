@@ -153,9 +153,19 @@ exports.Delete=function(req,res) {
         console.log(err)
     })
 
+    //remove Cv From User Arr
     CvModel.findByIdAndDelete(CvId,function(err,result){
-        console.log(result)
-        res.send('Cv Deleted ')
+        
+        UserModel.findOne({_id:req.user._id},function(err2,result2){
+    
+            if(result2 && !err2){
+                result2['CVUClId'].pull(result._id)
+                result2.save();
+                res.send('Cv Deleted ')
+                
+            }
+            
+        })
     })
 
 

@@ -11,6 +11,7 @@ router.post('/',auth.validateToken,Validate.ClValidate,ClController.Save)
 
 router.put('/:clId',auth.validateToken,Validate.ClValidate,ClController.Update)
 
+router.delete('/:clId',auth.validateToken,Validate.ClValidate,ClController.Delete)
 
 
 
